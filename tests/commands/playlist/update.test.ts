@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import { glob } from 'glob'
 
 const ENV_VAR =
-  'cross-env DATA_DIR=tests/__data__/input/data STREAMS_DIR=tests/__data__/output/streams LOGS_DIR=tests/__data__/output/logs'
+  'cross-env NODE_ENV=test DATA_DIR=tests/__data__/input/data STREAMS_DIR=tests/__data__/output/streams LOGS_DIR=tests/__data__/output/logs'
 
 beforeEach(() => {
   fs.emptyDirSync('tests/__data__/output')

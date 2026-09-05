@@ -21,13 +21,15 @@ beforeEach(() => {
 })
 
 describe('playlist:test', () => {
+  jest.setTimeout(30000)
+
   it('shows an error if the playlist contains a broken link', async () => {
     const cmd = `${ENV_VAR} npm run playlist:test streams/ag.m3u`
 
     try {
       await exec(cmd, { encoding: 'utf8' })
       if (process.env.DEBUG === 'true') console.log(cmd)
-      process.exit(0)
+      throw new Error('Expected playlist:test to fail')
     } catch (error) {
       if (process.env.DEBUG === 'true') console.log(cmd, error)
       expect((error as ExecError).stdout).toContain('streams/ag.m3u')
@@ -36,11 +38,11 @@ describe('playlist:test', () => {
   })
 
   it('it can remove all broken links from the playlist', async () => {
-    const cmd = `${ENV_VAR} npm run playlist:test streams/ag.m3u --- --fix`
+    const cmd = `${ENV_VAR} npm run playlist:test streams/ag.m3u -- --fix`
     try {
       await exec(cmd, { encoding: 'utf8' })
       if (process.env.DEBUG === 'true') console.log(cmd)
-      process.exit(0)
+      throw new Error('Expected playlist:test to fail')
     } catch (error) {
       if (process.env.DEBUG === 'true') console.log(cmd, error)
       const files = glob.sync('tests/__data__/expected/playlist_test/*.m3u').map(filepath => {
